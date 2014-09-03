@@ -1,0 +1,1 @@
+commons location is a map where you can easy select a geolocation. It returns the location template for wikimedia commons.
