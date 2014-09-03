@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="http://static.lyrk.de/leaflet/0.7/leaflet.css" />
+        <script src="http://static.lyrk.de/leaflet/0.7/leaflet.js"></script>
+        <script src="https://rawgithub.com/mylen/leaflet.TileLayer.WMTS/master/leaflet-tilelayer-wmts.js"></script>
+        <style type="text/css">
+            #map { height: 100%; width: 100%; position: absolute;}
+            html, body {
+                margin:0px;
+            }
+            #cross {
+                background: black;
+                width: 10px;
+                height: 10px;
+                left: 50%;
+                top: 50%;
+                margin-left: -5px;
+                margin-top:-5px;
+                position: absolute;
+                z-index: 10;
+            }
+            #text {
+                position: absolute;
+                z-index: 10;
+                bottom: 50px;
+                margin-left: -400px;
+                left: 50%;
+            }
+
+            #outputtext {
+                font-size: 16px;
+                width: 800px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="cross"></div>
+        <div id="text">
+            <input type="text" id="outputtext">
+        </div>
+        <script type="text/javascript"> 
+            var map = L.map('map').setView([51.0474, 13.7384], 13);
+
+            
+            osm = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '<a href="http://geodienste.lyrk.de/copyright">Lizenzinformationen</a>, Tiles by <a href="http://geodienste.lyrk.de/">Lyrk</a>',
+                maxZoom: 19
+            }).addTo(map);
+
+            var luft = L.tileLayer.wms("http://www.landesvermessung.sachsen.de/ias/basiskarte4/service/SRV4ADV_P_DOPRGB/WMSFREE_TK/wmsservice", {
+                layers: 'adv_dop',
+                format: 'image/png',
+                transparent: true,
+                attribution: "<a href='http://www.geosn.sachsen.de/'>&copy; Staatsbetrieb Geobasisinformation und Vermessung Sachsen (GeoSN), 2013</a>",
+                maxZoom: 20
+            });
+
+
+            var addressp = L.tileLayer.wms("http://www.landesvermessung.sachsen.de/ias/basiskarte4/service/SRV4IN_ADDRESS/WMSFREE_TK/wmsservice", {
+                layers: 'AD.Address',
+                styles: 'default',
+                format: 'image/png',
+                transparent: true,
+                attribution: "<a href='http://www.geosn.sachsen.de/'>&copy; Staatsbetrieb Geobasisinformation und Vermessung Sachsen (GeoSN), 2013</a>",
+                tileSize: 1024,
+                maxZoom: 20
+            });
+            var address = L.tileLayer.wms("http://www.landesvermessung.sachsen.de/ias/basiskarte4/service/SRV4IN_ADDRESS/WMSFREE_TK/wmsservice", {
+                layers: 'AD.Adress_Name',
+                format: 'image/png',
+                transparent: true,
+                attribution: "<a href='http://www.geosn.sachsen.de/'>&copy; Staatsbetrieb Geobasisinformation und Vermessung Sachsen (GeoSN), 2013</a>",
+                tileSize: 1024,
+                maxZoom: 22
+            });
+
+            
+            //luft.addTo(map)
+
+            var baseLayers = {
+                "OSM": osm,
+                "GeoSN": luft
+            };
+
+            var overlayLayer = {
+                "adressen": address,
+                "addressp": addressp
+            }
+
+
+            
+
+            L.control.layers(baseLayers, overlayLayer).addTo(map);
+
+
+            map.on('moveend', function(){
+                ll=map.getCenter();
+                document.getElementById('outputtext').value = "{{Location dec|"+ll.lat+"|"+ll.lng+"}}" ;
+            })
+        </script>
+    </body>
+</html>
