@@ -57,7 +57,7 @@
             });
 
 
-            var addressp = L.tileLayer.wms("http://www.landesvermessung.sachsen.de/ias/basiskarte4/service/SRV4IN_ADDRESS/WMSFREE_TK/wmsservice", {
+            var addressp = L.tileLayer.wms("https://geodienste.sachsen.de/iwms_geosn_adressen/guest", {
                 layers: 'AD.Address',
                 styles: 'default',
                 format: 'image/png',
@@ -66,8 +66,8 @@
                 tileSize: 1024,
                 maxZoom: 20
             });
-            var address = L.tileLayer.wms("http://www.landesvermessung.sachsen.de/ias/basiskarte4/service/SRV4IN_ADDRESS/WMSFREE_TK/wmsservice", {
-                layers: 'AD.Adress_Name',
+            var address = L.tileLayer.wms("https://geodienste.sachsen.de/iwms_geosn_adressen/guest", {
+                layers: 'Beschriftung',
                 format: 'image/png',
                 transparent: true,
                 attribution: "<a href='http://www.geosn.sachsen.de/'>&copy; Staatsbetrieb Geobasisinformation und Vermessung Sachsen (GeoSN), 2015</a>",
