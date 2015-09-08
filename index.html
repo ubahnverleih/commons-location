@@ -31,13 +31,18 @@
                 font-size: 16px;
                 width: 800px;
             }
+            #objectlocation {
+                font-size: 16px;
+                width: 800px;
+            }
         </style>
     </head>
     <body>
         <div id="map"></div>
         <div id="cross"></div>
         <div id="text">
-            <input type="text" id="outputtext">
+            <input type="text" id="outputtext"><br><br>
+            <input type="text" id="objectlocation">
         </div>
         <script type="text/javascript"> 
             var map = L.map('map').setView([51.0474, 13.7384], 13);
@@ -97,6 +102,7 @@
             map.on('moveend', function(){
                 ll=map.getCenter();
                 document.getElementById('outputtext').value = "{{Location dec|"+ll.lat+"|"+ll.lng+"}}" ;
+                document.getElementById('objectlocation').value = "{{Object location|"+ll.lat+"|"+ll.lng+"}}" ;
             })
         </script>
     </body>
